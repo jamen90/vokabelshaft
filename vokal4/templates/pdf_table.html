@@ -1,0 +1,24 @@
+
+{% block body %}
+
+<h2>{{ que.title }}</h2>
+<h3>{{ date }}</h3>
+<table class="table" border="1">
+  <thead>
+    <tr>
+      <th scope="col" style="padding-top: 0.4em">Wort</th>
+      <th scope="col" style="padding-top: 0.4em">Bedeutung</th>
+      <th scope="col" style="padding-top: 0.4em">Beispiel</th>
+    </tr>
+    <tbody>
+    	{% for row in table %}
+    		<tr>
+      		<td style="text-align: center; padding-top: 0.6em;">{{ row.wort }}</td>
+      		<td style="text-align: center; padding-top: 0.6em;">{{ row.bedeutung }}</td>
+      		<td style="text-align: center; padding-top: 0.6em;">{{ row.beispiel }}</td>
+    		</tr>
+    	{% endfor %}
+    </tbody>
+  </thead>
+</table>
+{% endblock %}
