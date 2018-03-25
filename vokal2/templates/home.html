@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+{% block body %}
+	  <div class="container">
+  		<div class="row">
+    		<div class="col-sm-3">
+    			<div class="position-fixed">
+      			<div class="form-group">
+      				<h4><p>Instant Adding</p></h4>
+					<form id="add_wort" action="{{ url_for('add') }}" method='post'>
+					<input type="text" autocomplete="off" autofocus class="form-control" name="wort" placeholder="der neue Wort">
+					<small id="wortHelp" class="form-text text-muted">add your new word, we'll check it for you</small>
+					<input type="text" class="form-control" autocomplete="off" name="bedeutung" placeholder="die Bedeutung">
+					<small id="meanHelp" class="form-text text-muted">brauchst du ein ubersetzer? <a href="#" class="badge badge-light">Google</a>.<a href="#" class="badge badge-light">arab-dict</a>.<a href="#" class="badge badge-light">other</a></small>
+					<input type="text" class="form-control" name="beispiel" placeholder="Beispiel">
+					<small id="ieHelp" class="form-text text-muted">some bla bla bla bla</small>
+					<input type="text" autocomplete="off" class="form-control" name="quelle" placeholder="die Quelle">
+					<small id="wortHelp" class="form-text text-muted">and here</small>
+					<input class="btn btn-outline-success" type="submit" value="speichern">
+					</form>
+					<h3>Oder</h3>
+					<h4><p>Begin a new Reading</p></h4>
+					{% if get_flashed_messages() %}
+					{% for message in get_flashed_messages() %}
+    				<div class="alert alert-danger" role="alert">{{ message }}</div>
+  					{% endfor %}
+  					{% endif %}
+					<form id="add_wort" action="{{ url_for('new') }}" method='post'>
+					<input type="text" class="form-control" autocomplete="off" name="quellen" placeholder="die Quelle">
+					<small id="wortHelp" class="form-text text-muted">and here too.....</small>
+					<input class="btn btn-outline-success" type="submit" value="schaffen">
+					</form>
+				</div>
+    		</div>
+    	</div>
+    			<div class="col">
+    			<div class="row justify-content-md-center">
+    			<div class="d-flex flex-column-reverse">
+    			{% if data %}
+      			{% for datum in data %}
+      				<div class="p-2"> 
+      				<div class="card text-white bg-secondary mb-3" style="width: 14rem; height: 14rem;">
+  					<div class="card-body">
+    				<h5 class="card-title">{{ datum.title }}</h5>
+    				<p class="card-text">{{ datum.title }}</p>
+    				<a href="{{ url_for('quelle', welche = datum.id) }}" class="btn btn-primary">{{ datum.title }}</a>
+  					</div>
+					</div>
+					</div>
+				{% endfor %}
+				
+				{% else %}
+					<h4> noch Keine Quellen </h4>
+					<img src="static/none.jpeg" style="width: 280px; height: 540px;"></img>
+				{% endif %}
+			</div>
+    		</div>
+    	</div>
+    		<div class="col-sm-5">
+					{% if words and res %}
+						{% if words != "0" and res != "0" %}
+						<table class="table">
+  						<thead>
+    						<tr>
+     						 <th scope="col">#</th>
+      							<th scope="col">Wort</th>
+      							<th scope="col">Bedeutung</th>
+      							<th scope="col">Beispiel</th>
+      							<th scope="col">Quelle</th>
+    							</tr>
+    							<tbody>
+    								{% for row in words %}
+    									<tr>
+      									<th scope="row">{{ row.id }}</th>
+      									<td>{{ row.wort }}</td>
+      									<td>{{ row.bedeutung }}</td>
+      									<td>{{ row.beispiel }}</td>
+      									<td>{% for i in res %} {% if row.quelle_id == i.id %} {{ i.title }} {% endif %} {% endfor %}</td>
+    									</tr>
+    									{% endfor %}
+    							</tbody>
+  							</thead>
+						</table>
+						{% elif words=="0" and res=="0" %}
+						<div class="alert alert-warning" role="alert">
+						no match
+						</div>
+						{% endif %}
+					{% else %}
+					...
+					{% endif %}
+					</div>
+    	</div>
+  	</div>
+</div>
+{% endblock %}
+	
